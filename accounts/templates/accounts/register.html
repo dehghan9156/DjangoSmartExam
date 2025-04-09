@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="text-left">Welcome to the Quiz</h2>
+                <h6 class="text-left">Please enter your name to begin.</h6>
+                <form method="post" >
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <div class="input-group">
+                            <!-- اینپوت کوچکتر -->
+                            {{ form.as_p|safe }}
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_styles %}
+    <style>
+        .container {
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .card {
+            width: 400px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        h2, h6 {
+            font-size: 18px;
+            color: #333;
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 50px;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        input {
+            width: 75%;
+            padding: 10px;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+
+        .btn {
+            width: 20%;
+            padding: 10px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+{% endblock %}
