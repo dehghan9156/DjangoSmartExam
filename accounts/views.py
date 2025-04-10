@@ -17,9 +17,17 @@ from .forms import RegisterUserForm
 from .models import User
 
 
-class RegisterUserView(CreateView):
-    model = User
-    template_name = 'accounts/register.html'
-    success_url = reverse_lazy('accounts:user-login')
-    form_class = RegisterUserForm
-    success_message = "User Create Successfully.Thank You"
+class RegisterUserView(View):
+    def get(self,request):
+        form = RegisterUserForm()
+        return render(request,"accounts/register.html",{'form':form})
+
+    def post(self,request):
+        form = RegisterUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            if user.type== "Teacher":
+                return redirect("exam:ask-question")
+            else:
+                return redirect("exam:quiz")
+        return render(request,"accounts/register.html",{'form':form})
