@@ -75,3 +75,18 @@ class QuestionCreateView(View):
 class SuccessQuestionView(View):
     def get(self,request):
         return render(request,"exam/success-question.html")
+
+class ExamSelectedView(View):
+    def get(self,request):
+        exams = Exam.objects.all()
+        return render(request,"exam/exam-selected.html",{'exams':exams})
+
+
+
+
+# class QuizView(View):
+#     def get(self,request,pk):
+#
+#
+#     def post(self,request):
+#         pass
