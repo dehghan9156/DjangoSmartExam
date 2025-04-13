@@ -15,11 +15,8 @@ class ExamCreateForm(forms.ModelForm):
 class QuestionCreateForm(forms.ModelForm):
     class Meta:
         model = Question
-        fields = ["exam","soal","correct_answer"]
+        fields = ["soal","correct_answer"]
         widgets ={
-            "exam": forms.Select(attrs={
-                'class': 'form-control',
-            }),
             "soal":forms.TextInput(attrs={
                 'class':'form-control',
             }),
@@ -28,5 +25,5 @@ class QuestionCreateForm(forms.ModelForm):
             })
         }
 
-class NumberofQuestionForm(forms.ModelForm):
-    number_of_question = forms.IntegerField(min_value=1,widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter number of questions'}))
+class NumberofQuestionForm(forms.Form):
+    number_of_question = forms.IntegerField(min_value=1,widget=forms.NumberInput(attrs={'class': 'form-control'}))

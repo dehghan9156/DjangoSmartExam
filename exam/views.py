@@ -15,12 +15,21 @@ from django.template.loader import render_to_string
 from django.conf import settings
 from .models import Exam,Question
 from .forms import ExamCreateForm,QuestionCreateForm,NumberofQuestionForm
+from django.forms import modelformset_factory
+from .models import Question
+from .forms import QuestionCreateForm
 
-class ExamCreateView(CreateView):
-    model = Exam
-    form_class = ExamCreateForm
-    success_url = reverse_lazy("exam:question-create")
-    template_name = "exam/create-exam.html"
+class ExamCreateView(View):
+    def get(self,request):
+        form = ExamCreateForm()
+        return render(request,"exam/create-exam.html",{'form':form})
+    def post(self,request):
+        form = ExamCreateForm(request.POST)
+        if form.is_valid():
+            exam = form.save()
+            request.session["exam_id"] = exam.pk
+            return redirect("exam:question-number")
+        return render(request, "exam/create-exam.html", {'form': form})
 
 
 class QuestionNumberView(View):
@@ -29,15 +38,39 @@ class QuestionNumberView(View):
         return render(request,"exam/number-question.html",{'form':form})
 
     def post(self,request):
-        pass
+        form = NumberofQuestionForm(request.POST)
+        if form.is_valid():
+            number_of_question = form.cleaned_data['number_of_question']
+            request.session['number_of_question'] = number_of_question
+            return redirect("exam:question-create")
+        return render(request,"exam/number-question.html",{'form':form})
 
 
+class QuestionCreateView(View):
+    def get(self, request):
+        number_of_question = request.session.get('number_of_question', 1)
+        QuestionFormSet = modelformset_factory(Question, form=QuestionCreateForm, extra=number_of_question)
+        formset = QuestionFormSet(queryset=Question.objects.none())  # فرم‌های خالی
+        return render(request, "exam/create-question.html", {'forms': formset})
 
-class QuestionCreateView(CreateView):
-    model = Question
-    form_class = QuestionCreateForm
-    success_url = reverse_lazy("exam:question-success")
-    template_name = "exam/create-question.html"
+    def post(self, request):
+        number_of_question = request.session.get('number_of_question')
+        exam_id = request.session.get('exam_id')
+
+        QuestionFormSet = modelformset_factory(Question, form=QuestionCreateForm, extra=number_of_question)
+        formset = QuestionFormSet(request.POST)
+
+        if formset.is_valid():
+            instances = formset.save(commit=False)
+            exam = Exam.objects.get(pk=exam_id)
+            for instance in instances:
+                instance.exam = exam
+                instance.save()
+            return redirect("exam:question-success")
+        else:
+            print(formset.errors)
+        return render(request, "exam/create-question.html", {'forms': formset})
+
 
 class SuccessQuestionView(View):
     def get(self,request):
