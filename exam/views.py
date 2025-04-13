@@ -13,12 +13,11 @@ from django.core.mail import send_mail
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.conf import settings
-from .models import Exam,Question
+from .models import Exam,Question,Answer,Taghalob
 from .forms import ExamCreateForm,QuestionCreateForm,NumberofQuestionForm
 from django.forms import modelformset_factory
-from .models import Question
-from .forms import QuestionCreateForm
-
+from .forms import QuestionCreateForm,AnswerForm
+from accounts.models import User
 class ExamCreateView(View):
     def get(self,request):
         form = ExamCreateForm()
@@ -84,9 +83,23 @@ class ExamSelectedView(View):
 
 
 
-# class QuizView(View):
-#     def get(self,request,pk):
-#
-#
-#     def post(self,request):
-#         pass
+class QuizView(View):
+    def get(self,request,pk):
+        question = Question.objects.filter(exam=pk)
+        return render(request,"exam/quiz.html",{'question':question})
+
+    def post(self, request, pk):
+        user_name = request.session.get('user_name')
+        user = User.objects.filter(name=user_name).first()
+        if not user:
+            return redirect("accounts:register-user")
+
+        for question in Question.objects.filter(exam=pk):
+            answer_text = request.POST.get(f'answer_{question.id}')
+            if answer_text:
+                Answer.objects.create(
+                    user=user,
+                    question=question,
+                    student_answer=answer_text,
+                )
+        return redirect('quiz_results')

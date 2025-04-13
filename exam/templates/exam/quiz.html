@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container mt-5">
+        <h3 class="mb-4 text-center">Answer the Quiz</h3>
+        <form method="post">
+            {% csrf_token %}
+            {% for ques in question %}
+                <div class="mb-3">
+                    <p><strong>{{ ques.soal }}</strong></p>
+                    <textarea class="form-control" name="answer_{{ ques.id }}" rows="5" placeholder="پاسخ خود را وارد کنید"></textarea>
+                </div>
+            {% endfor %}
+            <div class="text-center">
+                <button type="submit" class="btn btn-success">Submit Answers</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

@@ -27,3 +27,6 @@ class QuestionCreateForm(forms.ModelForm):
 
 class NumberofQuestionForm(forms.Form):
     number_of_question = forms.IntegerField(min_value=1,widget=forms.NumberInput(attrs={'class': 'form-control'}))
+
+class AnswerForm(forms.Form):
+    answer = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=True)

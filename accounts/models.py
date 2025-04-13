@@ -8,7 +8,7 @@ type_person=(
 
 class User(models.Model):
     name = models.CharField(max_length=250)
-    type = models.CharField(choices=type_person)
+    type = models.IntegerField(choices=type_person)
 
     def __str__(self):
         return f"{self.pk}-{self.name}"

@@ -26,8 +26,9 @@ class RegisterUserView(View):
         form = RegisterUserForm(request.POST)
         if form.is_valid():
             user = form.save()
+            request.session["user_name"] = user.name
             if user.type== "Teacher":
-                return redirect("exam:ask-question")
+                return redirect("exam:exam-create")
             else:
-                return redirect("exam:quiz")
+                return redirect("exam:exam-selected")
         return render(request,"accounts/register.html",{'form':form})

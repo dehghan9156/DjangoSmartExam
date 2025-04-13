@@ -6,9 +6,12 @@ from .models import User
 class RegisterUserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ["name"]
+        fields = ["name","type"]
         widgets = {
             'name': forms.TextInput(attrs={
+                'class': 'form-control',
+            }),
+            'type': forms.Select(attrs={
                 'class': 'form-control',
             }),
         }
