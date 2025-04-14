@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% for item in result %}
+        <div class="mb-4 p-3 border rounded shadow">
+            <p><strong>Question:</strong> {{ item.question }}</p>
+            <p><strong>Your_Answer:</strong> {{ item.student_answer }}</p>
+            <p><strong>Correct_Answer:</strong> {{ item.correct_answer }}</p>
+            <p><strong>Similarity:</strong> {{ item.similarity }}</p>
+            {% if item.similarity >= 80 %}
+                <p class="text-success">roughly correct ✔</p>
+            {% else %}
+                <p class="text-success">needs revision ❌</p>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endblock %}

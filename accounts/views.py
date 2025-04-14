@@ -27,7 +27,7 @@ class RegisterUserView(View):
         if form.is_valid():
             user = form.save()
             request.session["user_name"] = user.name
-            if user.type== "Teacher":
+            if user.type== 1:
                 return redirect("exam:exam-create")
             else:
                 return redirect("exam:exam-selected")
