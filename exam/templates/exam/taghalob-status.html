@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h2>Exam cheating report:{{ taghalob_list.0.exam.name }}</h2>  <!-- اسم امتحان -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Student 1</th>
+                    <th>Student 2</th>
+                    <th>Question</th>
+                    <th>Exam</th>
+                    <th>Similarity</th>
+                    <th>Checking Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for taghalob in taghalob_list %}
+                    <tr>
+                        <td>{{ taghalob.student_1.pk }}-{{ taghalob.student_1.name}}</td>
+                        <td>{{ taghalob.student_2.pk }}-{{ taghalob.student_2.name}}</td>
+                        <td>{{taghalob.question}}</td>
+                        <td>{{ taghalob.exam.name }}</td>
+                        <td>{{ taghalob.similarity_percentage }}%</td>
+                        <td>
+                            {% if taghalob.is_checking %}
+                                <span class="badge bg-warning text-dark">Checked</span>
+                            {% else %}
+                                <span class="badge bg-success">Not Checked</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{#    <p>{{ taghalob_list }}</p>#}
+
+{% endblock %}

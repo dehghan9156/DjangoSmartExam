@@ -26,6 +26,7 @@ class Answer(models.Model):
 
 class Taghalob(models.Model):
     exam = models.ForeignKey(Exam,on_delete=models.CASCADE)
+    question = models.ForeignKey(Question,on_delete=models.CASCADE,null=True)
     student_1 = models.ForeignKey(User,on_delete=models.CASCADE,related_name="answer_student_1")
     student_2 = models.ForeignKey(User,on_delete=models.CASCADE,related_name="answer_student_2")
     similarity_percentage = models.PositiveIntegerField(default=0)
