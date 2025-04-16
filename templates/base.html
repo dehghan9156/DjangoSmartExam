@@ -55,16 +55,16 @@
 </head>
 <body>
     <!-- Header Section -->
-{#    <header>#}
-{#        <nav>#}
-{#            <ul>#}
-{#                <li><a href="{% url 'home' %}">خانه</a></li>#}
-{#                <li><a href="{% url 'exam:start' %}">امتحان</a></li>#}
-{#                <li><a href="{% url 'accounts:user-register' %}">ثبت نام</a></li>#}
-{#                <li><a href="{% url 'accounts:login' %}">ورود</a></li>#}
-{#            </ul>#}
-{#        </nav>#}
-{#    </header>#}
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="{% url 'exam:exam-selected' %}">Quiz</a></li>
+                <li><a href="#">ExamStatus</a></li>
+                <li><a href="#">Login</a></li>
+            </ul>
+        </nav>
+    </header>
 
     <!-- Main Content Section -->
     <main>

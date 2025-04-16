@@ -22,7 +22,6 @@ from accounts.models import User
 from difflib import SequenceMatcher
 from rapidfuzz import fuzz
 from django.db.models import Q
-from .test import answers
 
 
 class ExamCreateView(View):
