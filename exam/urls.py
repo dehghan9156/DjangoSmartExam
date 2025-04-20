@@ -11,7 +11,8 @@ urlpatterns = [
     path("question/success/",views.SuccessQuestionView.as_view(),name='question-success'),
     path("selected/",views.ExamSelectedView.as_view(),name='exam-selected'),
     path("quiz/<int:pk>/",views.QuizView.as_view(),name='quiz'),
-    path("quiz/result/",views.QuizResultView.as_view(),name='quiz-result'),
-    path("taghalob/status/",views.TaghalobStatusView.as_view(),name='taghalob-status'),
-    
+    path("quiz/result/<int:pk>/"
+         "",views.QuizResultView.as_view(),name='quiz-result'),
+    path("taghalob/status/<int:pk>/",views.TaghalobStatusView.as_view(),name='taghalob-status'),
+    path("list/",views.ExamListView.as_view(),name='exam-list'),
 ]

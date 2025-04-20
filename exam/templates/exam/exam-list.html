@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2 class="mb-4">List Exams</h2>
+        <div class="d-flex flex-column gap-2">
+            {% for exam in exams %}
+                <a href="{% url "exam:taghalob-status" exam.pk %}" class="btn btn-outline-primary text-start">
+                    {{ exam.name }}
+                </a>
+            {% empty %}
+                <div class="alert alert-warning">هیچ امتحانی موجود نیست.</div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

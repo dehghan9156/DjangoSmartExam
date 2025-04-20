@@ -22,6 +22,7 @@ from accounts.models import User
 from difflib import SequenceMatcher
 from rapidfuzz import fuzz
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
 
 
 class ExamCreateView(View):
@@ -108,15 +109,15 @@ class QuizView(View):
                     question=question,
                     student_answer=answer_text,
                 )
-        return redirect('exam:quiz-result')
+        return redirect('exam:quiz-result',pk)
 
 
 class QuizResultView(View):
-    def get(self, request):
+    def get(self, request,pk):
         user_name = request.session.get('user_name')
         user = User.objects.filter(name=user_name).first()
         result = []
-        answers = Answer.objects.filter(user=user)
+        answers = Answer.objects.filter(user=user,question__exam__pk=pk)
         for ans in answers:
             similarity = SequenceMatcher(None, ans.student_answer, ans.question.correct_answer).ratio()
             result.append({
@@ -129,9 +130,8 @@ class QuizResultView(View):
 
 
 class TaghalobStatusView(View):
-    def get(self, request):
-        exam_id = request.session.get('exam_id')
-        exam = Exam.objects.get(pk=exam_id)
+    def get(self, request,pk):
+        exam = get_object_or_404(Exam,pk=pk)
         questions = Question.objects.filter(exam=exam)
         taghalob_list = []
         for ques in questions:
@@ -168,3 +168,9 @@ class TaghalobStatusView(View):
                         if taghalob:
                             taghalob_list.append(taghalob)
         return render(request, "exam/taghalob-status.html", {"taghalob_list": taghalob_list})
+
+
+class ExamListView(View):
+    def get(self,request):
+        exams = Exam.objects.all()
+        return render(request,"exam/exam-list.html",{'exams':exams})
