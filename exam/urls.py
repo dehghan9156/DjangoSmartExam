@@ -15,4 +15,5 @@ urlpatterns = [
          "",views.QuizResultView.as_view(),name='quiz-result'),
     path("taghalob/status/<int:pk>/",views.TaghalobStatusView.as_view(),name='taghalob-status'),
     path("list/",views.ExamListView.as_view(),name='exam-list'),
+    path("api/v1/",include("exam.api.v1.urls",namespace="api-v1")),
 ]
